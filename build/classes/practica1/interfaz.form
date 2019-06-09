@@ -426,13 +426,6 @@
         <Container class="javax.swing.JScrollPane" name="trueGallery">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="gallery">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="NO IMAGE SELECTED YET"/>
-              </Properties>
-            </Component>
-          </SubComponents>
         </Container>
       </SubComponents>
     </Container>

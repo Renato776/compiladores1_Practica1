@@ -71,7 +71,6 @@ public class interfaz extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         galleryTitle = new javax.swing.JLabel();
         trueGallery = new javax.swing.JScrollPane();
-        gallery = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -213,9 +212,6 @@ public class interfaz extends javax.swing.JFrame {
         transiciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         galleryTitle.setText("Grafica");
-
-        gallery.setText("NO IMAGE SELECTED YET");
-        trueGallery.setViewportView(gallery);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -468,13 +464,21 @@ public class interfaz extends javax.swing.JFrame {
     private void arbolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arbolesActionPerformed
         // TODO add your handling code here:
         String imageName = arboles.getItemAt(arboles.getSelectedIndex());
-        try{
-            BufferedImage image = ImageIO.read(new File(Practica1.path+imageName));
-    gallery.setIcon(new javax.swing.ImageIcon (image));
     galleryTitle.setText(imageName);
-    trueGallery.repaint();
+    System.out.println();
+    File imageFile = new File(Practica1.path+imageName);
+    System.out.println("Se encotro la imagen: "+imageFile.exists());
+    try{
+            BufferedImage image = Practica1.rasterize(imageFile);
+            JLabel myNewLabel = new JLabel(new javax.swing.ImageIcon(image));
+    //gallery.setIcon(new javax.swing.ImageIcon (image));
+    System.out.println("Intentando mostrar imagen: "+myNewLabel.toString());
+    trueGallery.add(myNewLabel);
+    trueGallery.setVisible(false);
+    trueGallery.setVisible(true);
     //trueGallery.add(gallery);
    }catch(Exception e){
+       System.out.println("Ocurrio un error al mostrar imagen: "+e.getMessage());
         }
    
     }//GEN-LAST:event_arbolesActionPerformed
@@ -533,7 +537,6 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> arboles;
     private javax.swing.JComboBox<String> automatas;
     private javax.swing.JTextArea console;
-    private javax.swing.JLabel gallery;
     private javax.swing.JLabel galleryTitle;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
