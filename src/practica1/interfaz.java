@@ -10,8 +10,11 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import java.io.*;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 /**
@@ -74,6 +77,11 @@ public class interfaz extends javax.swing.JFrame {
         jLabel2.setText("Archivo de Entrada");
 
         jButton1.setText("Analizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Salida");
 
@@ -84,6 +92,11 @@ public class interfaz extends javax.swing.JFrame {
         jLabel4.setText("Arboles");
 
         arboles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        arboles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arbolesActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Tabla de siguientes");
 
@@ -183,7 +196,7 @@ public class interfaz extends javax.swing.JFrame {
 
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        System.out.println(jComboBox1.getSelectedIndex());
+        //System.out.println(jComboBox1.getSelectedIndex());
         //"Abrir", "Guardar", "Guardar Como", "Generar XML" 
         switch (jComboBox1.getSelectedIndex()) {
             case 0://Abrir
@@ -285,8 +298,56 @@ public class interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String raw = texto.getText();
+        String[] parrafos = raw.split("%%");
+          
+        for (String content : parrafos) {
+         scanner lexico = new scanner(new BufferedReader(new StringReader(content)));        
+        parser sin = new parser(lexico);
+        try{sin.parse();}catch(Exception eret){System.out.println(eret);}
+        }
+        for(Tree rTree: Practica1.arboles){
+        System.out.println("Arbol lleno: "+rTree.name);
+        rTree.llenarHojas(rTree.root);
+        rTree.generarSiguientes();
+        rTree.llenar(rTree.root);
+        rTree.print();
+        rTree.getSiguientes();
+        rTree.getTablaTransiciones();
+        rTree.printAutomata();
+        }
+        // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
+        String[] trees = new String[Practica1.arboles.size()];
+        String[] follows = new String[Practica1.arboles.size()];
+        String[] transitions = new String[Practica1.arboles.size()];
+        String[] afds = new String[Practica1.arboles.size()];
+        String arbolEnding = "_arbol.svg";
+        int c = 0;
+        for (Tree arbol : Practica1.arboles) {
+            trees[c] = arbol.name + arbolEnding;
+            follows[c] = arbol.name + "_siguientes.svg";
+            transitions[c] = arbol.name + "_transiciones.svg";
+            afds[c] = arbol.name + "_automata.svg";
+            c++;
+        }
+        this.arboles.setModel(new javax.swing.DefaultComboBoxModel(trees));
+        this.siguientes.setModel(new javax.swing.DefaultComboBoxModel(follows));
+        this.transiciones.setModel(new javax.swing.DefaultComboBoxModel(transitions));
+        this.automatas.setModel(new javax.swing.DefaultComboBoxModel(afds));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void arbolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arbolesActionPerformed
+        // TODO add your handling code here:
+        String imageName = arboles.getItemAt(arboles.getSelectedIndex());
+        //open image at: Practica1+"/"+imageName;
+        javax.swing.ImageIcon miArbol = new javax.swing.ImageIcon(Practica1.path+imageName);
+        JOptionPane.showMessageDialog(null,"",imageName,JOptionPane.INFORMATION_MESSAGE,miArbol);
+    }//GEN-LAST:event_arbolesActionPerformed
+
     /**
-     * @param args the command line arguments
+     * @param args the command line argument
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -333,7 +394,6 @@ public class interfaz extends javax.swing.JFrame {
                 i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
             }
         });
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
