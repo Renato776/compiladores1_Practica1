@@ -32,90 +32,110 @@ public class Practica1 {
     public static LinkedList<Conjunto> conjuntos = new LinkedList();
     public static LinkedList<String> bloques = new LinkedList();
 
+    public static boolean treeAlreadyExists(Tree t, LinkedList<Tree> li) {
+        for (Tree arbol : li) {
+            if (arbol.name.equals(t.name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void removeDupes(LinkedList<Tree> li) {
+        LinkedList<Tree> result = new LinkedList();
+        for (Tree t : li) {
+            if (!treeAlreadyExists(t, result)) {
+                result.add(t);
+            }
+        }
+        arboles = result;
+    }
+
     public static BufferedImage rasterize(File svgFile) throws IOException {
 
-    final BufferedImage[] imagePointer = new BufferedImage[1];
+        final BufferedImage[] imagePointer = new BufferedImage[1];
 
-    // Rendering hints can't be set programatically, so
-    // we override defaults with a temporary stylesheet.
-    // These defaults emphasize quality and precision, and
-    // are more similar to the defaults of other SVG viewers.
-    // SVG documents can still override these defaults.
-    String css = "svg {" +
-            "shape-rendering: geometricPrecision;" +
-            "text-rendering:  geometricPrecision;" +
-            "color-rendering: optimizeQuality;" +
-            "image-rendering: optimizeQuality;" +
-            "}";
-    File cssFile = File.createTempFile("batik-default-override-", ".css");
-    FileUtils.writeStringToFile(cssFile, css);
-    TranscodingHints transcoderHints = new TranscodingHints();
-    transcoderHints.put(ImageTranscoder.KEY_XML_PARSER_VALIDATING, Boolean.FALSE);
-    transcoderHints.put(ImageTranscoder.KEY_DOM_IMPLEMENTATION,
-            SVGDOMImplementation.getDOMImplementation());
-    transcoderHints.put(ImageTranscoder.KEY_DOCUMENT_ELEMENT_NAMESPACE_URI,
-            SVGConstants.SVG_NAMESPACE_URI);
-    transcoderHints.put(ImageTranscoder.KEY_DOCUMENT_ELEMENT, "svg");
-    transcoderHints.put(ImageTranscoder.KEY_USER_STYLESHEET_URI, cssFile.toURI().toString());
+        // Rendering hints can't be set programatically, so
+        // we override defaults with a temporary stylesheet.
+        // These defaults emphasize quality and precision, and
+        // are more similar to the defaults of other SVG viewers.
+        // SVG documents can still override these defaults.
+        String css = "svg {"
+                + "shape-rendering: geometricPrecision;"
+                + "text-rendering:  geometricPrecision;"
+                + "color-rendering: optimizeQuality;"
+                + "image-rendering: optimizeQuality;"
+                + "}";
+        File cssFile = File.createTempFile("batik-default-override-", ".css");
+        FileUtils.writeStringToFile(cssFile, css);
+        TranscodingHints transcoderHints = new TranscodingHints();
+        transcoderHints.put(ImageTranscoder.KEY_XML_PARSER_VALIDATING, Boolean.FALSE);
+        transcoderHints.put(ImageTranscoder.KEY_DOM_IMPLEMENTATION,
+                SVGDOMImplementation.getDOMImplementation());
+        transcoderHints.put(ImageTranscoder.KEY_DOCUMENT_ELEMENT_NAMESPACE_URI,
+                SVGConstants.SVG_NAMESPACE_URI);
+        transcoderHints.put(ImageTranscoder.KEY_DOCUMENT_ELEMENT, "svg");
+        transcoderHints.put(ImageTranscoder.KEY_USER_STYLESHEET_URI, cssFile.toURI().toString());
 
-    try {
+        try {
 
-        TranscoderInput input = new TranscoderInput(new FileInputStream(svgFile));
+            TranscoderInput input = new TranscoderInput(new FileInputStream(svgFile));
 
-        ImageTranscoder t = new ImageTranscoder() {
+            ImageTranscoder t = new ImageTranscoder() {
 
-            @Override
-            public BufferedImage createImage(int w, int h) {
-                return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            }
+                @Override
+                public BufferedImage createImage(int w, int h) {
+                    return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+                }
 
-            @Override
-            public void writeImage(BufferedImage image, TranscoderOutput out)
-                    throws TranscoderException {
-                imagePointer[0] = image;
-            }
-        };
-        t.setTranscodingHints(transcoderHints);
-        t.transcode(input, null);
+                @Override
+                public void writeImage(BufferedImage image, TranscoderOutput out)
+                        throws TranscoderException {
+                    imagePointer[0] = image;
+                }
+            };
+            t.setTranscodingHints(transcoderHints);
+            t.transcode(input, null);
+        } catch (TranscoderException ex) {
+            // Requires Java 6
+            ex.printStackTrace();
+            throw new IOException("Couldn't convert " + svgFile);
+        } finally {
+            cssFile.delete();
+        }
+
+        return imagePointer[0];
     }
-    catch (TranscoderException ex) {
-        // Requires Java 6
-        ex.printStackTrace();
-        throw new IOException("Couldn't convert " + svgFile);
-    }
-    finally {
-        cssFile.delete();
+
+    public static void generarPNG(File imageFile) {
+        try {
+            Runtime rt = Runtime.getRuntime();
+            Process pr = rt.exec("inkscape -z -e " + imageFile.getAbsolutePath() + ".png" + " -w 600 -h 600 " + imageFile.getAbsolutePath() + "");
+        } catch (Exception ex) {
+            System.out.println("Error al crear grafica: " + ex.getMessage());
+        }
     }
 
-    return imagePointer[0];
-}
-   
-    public static void generarPNG(File imageFile){
-    try {
-                Runtime rt = Runtime.getRuntime();
-                Process pr = rt.exec("inkscape -z -e " + imageFile.getAbsolutePath() + ".png" + " -w 600 -h 600 " + imageFile.getAbsolutePath() + "");
-            } catch (Exception ex) {
-                System.out.println("Error al crear grafica: " + ex.getMessage());
-            }
-    }
-    public static void generatePNG(File svgFile){
-        try{
-               String svg_URI_input = Paths.get(svgFile.getAbsolutePath()).toUri().toURL().toString();
-            TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
+    public static void generatePNG(File svgFile) {
+        try {
+            String svg_URI_input = Paths.get(svgFile.getAbsolutePath()).toUri().toURL().toString();
+            TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
             //Step-2: Define OutputStream to PNG Image and attach to TranscoderOutput
-            System.out.println("about to write file to:"+ path+svgFile.getName()+".PNG");
-            OutputStream png_ostream = new FileOutputStream(path+svgFile.getName()+".PNG");
-            TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
+            System.out.println("about to write file to:" + path + svgFile.getName() + ".PNG");
+            OutputStream png_ostream = new FileOutputStream(path + svgFile.getName() + ".PNG");
+            TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
             // Step-3: Create PNGTranscoder and define hints if required
-            PNGTranscoder my_converter = new PNGTranscoder();        
+            PNGTranscoder my_converter = new PNGTranscoder();
             // Step-4: Convert and Write output
             my_converter.transcode(input_svg_image, output_png_image);
             // Step 5- close / flush Output Stream
             png_ostream.flush();
-            png_ostream.close();   
-         }catch(Exception excp){System.out.println(excp.getMessage());}
-         }
-    
+            png_ostream.close();
+        } catch (Exception excp) {
+            System.out.println(excp.getMessage());
+        }
+    }
+
     public static boolean compare(LinkedList<Integer> first, LinkedList<Integer> last) {
         boolean result = first.size() == last.size();
         if (result) {
@@ -145,12 +165,16 @@ public class Practica1 {
         }
         return null;
     }
-    public static boolean contiene(LinkedList<Integer> li,int r){
-    for(int ren: li){
-    if(ren==r){return true;}
+
+    public static boolean contiene(LinkedList<Integer> li, int r) {
+        for (int ren : li) {
+            if (ren == r) {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-    }
+
     public static boolean leafExists(LinkedList<Hoja> li, int i) {
         for (Hoja h : li) {
             if (h.numero == i) {
@@ -163,28 +187,32 @@ public class Practica1 {
     public static LinkedList<Hoja> getHojas(LinkedList<Integer> i, Tree t) {
         LinkedList<Hoja> result = new LinkedList();
         for (int num : i) {
-            Hoja h = getLeaf(num,t);
-            if(!h.symbol.equals("#")){
-            result.add(h);
+            Hoja h = getLeaf(num, t);
+            if (!h.symbol.equals("#")) {
+                result.add(h);
             }
         }
         return result;
     }
- public static rObject getRObject(String s, LinkedList<rObject> o){
- for(rObject obj: o){
- if(obj.symbol.equals(s))return obj;
- }
- return null;
- }
+
+    public static rObject getRObject(String s, LinkedList<rObject> o) {
+        for (rObject obj : o) {
+            if (obj.symbol.equals(s)) {
+                return obj;
+            }
+        }
+        return null;
+    }
+
     public static LinkedList<Integer> union(LinkedList<Integer> p, LinkedList<Integer> u) {
         LinkedList<Integer> resultado = new LinkedList();
         p.forEach((i) -> {
-            if (!contiene(resultado,i)) {
+            if (!contiene(resultado, i)) {
                 resultado.add(i);
             }
         });
         u.forEach((i2) -> {
-            if (!contiene(resultado,i2)) {
+            if (!contiene(resultado, i2)) {
                 resultado.add(i2);
             }
         });

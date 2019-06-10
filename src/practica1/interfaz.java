@@ -442,14 +442,14 @@ public class interfaz extends javax.swing.JFrame {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
+       
         String raw = this.texto.getText();
         subParser.scanner.evaluate(raw);
         for (String yay : Practica1.bloques) {
             System.out.println(yay);
             evaluateBloque(yay);
         }
-
+        Practica1.removeDupes(Practica1.arboles);
         // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
         String[] trees = new String[Practica1.arboles.size()];
         String[] follows = new String[Practica1.arboles.size()];
