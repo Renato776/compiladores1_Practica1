@@ -493,37 +493,23 @@ public class interfaz extends javax.swing.JFrame {
         for(String es: s.split("%%")){
          if (!Practica1.isDeclarationBlock(es)) {
             evaluacion.scanner.evaluate(es);
-            String resultado = "<Salida>";
+            String resultado = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+"<Salida>"+"\n";
             for (Evaluacion eval : Practica1.evaluaciones) {
                 boolean result = eval.evaluate();
                 if (result) {
                     Practica1.log("La cadena: \"" + eval.contenido + "\" es una cadena valida");
-                resultado = resultado +"<Expresion>"+"\n"+"<Valor>"+eval.contenido+"</Valor>"+"\n";
-                resultado = resultado +"<ER>"+eval.expresion+"</ER>"+"\n";
-                resultado = resultado +"<Resultado>"+"Cadena Valida"+"</Resultado>"+"\n";
-                resultado = resultado + "</Expresion>"+"\n";
+                resultado = resultado+getXMLEntry(eval.contenido,eval.expresion,"Cadena Valida");
                 } else {
                     Practica1.log("La cadena: \"" + eval.contenido + "\" NO una cadena valida.");
-                resultado = resultado +"<Expresion>"+"\n"+"<Valor>"+eval.contenido+"</Valor>"+"\n";
-                resultado = resultado +"<ER>"+eval.expresion+"</ER>"+"\n";
-                resultado = resultado +"<Resultado>"+"Cadena NO Valida"+"</Resultado>"+"\n";
-                resultado = resultado + "</Expresion>"+"\n";
-                }
+               resultado = resultado+getXMLEntry(eval.contenido,eval.expresion,"Cadena NO Valida");
+                 }
             }
             resultado = resultado+"</Salida>";
-        /*try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Practica1.path+"XML_Output"+Practica1.xmlCounter+".xml"), true));
-                        //FileWriter fw = new FileWriter(guardar);
-                        writer.write(resultado);
-                        writer.close();
-                        //console.setText(console.getText()+"\n"+"intentando imprimir: "+texto.getText());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+        if(Practica1.evaluaciones.size()>0)writeXML(resultado);
         
-        Practica1.xmlCounter++;
-        // String reportName = transiciones.getItemAt(transiciones.getSelectedIndex());
-                    this.waitUntilExists(Practica1.path + "XML_Output"+Practica1.xmlCounter+".xml");
+        // open just created file
+              /*      this.waitUntilExists(Practica1.path + "XML_Output"+Practica1.xmlCounter+".xml");
 
         File htmlFile = new File(Practica1.path + "XML_Output"+Practica1.xmlCounter+".xml");
         try {
@@ -534,7 +520,21 @@ public class interfaz extends javax.swing.JFrame {
             */
          }
         }
-       
+    }
+    public void writeXML(String s){
+    try {
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Practica1.path+"XML_Output"+Practica1.xmlCounter+".xml"), false));
+                        //FileWriter fw = new FileWriter(guardar);
+                        writer.write(s);
+                        writer.close();
+                        //console.setText(console.getText()+"\n"+"intentando imprimir: "+texto.getText());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+    Practica1.xmlCounter++;
+    }
+    public String getXMLEntry(String valor, String expresion, String resultado){
+    return "<Expresion><Valor>"+valor+"</Valor><ER>"+expresion+"</ER><Resultado>"+resultado+"</Resultado></Expresion>"+"\n";
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
