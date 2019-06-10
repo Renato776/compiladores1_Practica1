@@ -38,7 +38,10 @@ public class interfaz extends javax.swing.JFrame {
     public interfaz() {
         initComponents();
     }
-
+    public static void log(String s, interfaz i ){
+    String old = i.console.getText()+"\n";
+    i.console.setText(old+s);
+    }
     public void waitUntilExists(String f) {
         File file = new File(f);
         while (!file.exists()) {
@@ -379,12 +382,14 @@ public class interfaz extends javax.swing.JFrame {
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
+                    Practica1.log("Archivo guardado con exito.");
                 } else {
                     try {
                         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(guardar), true));
                         //FileWriter fw = new FileWriter(guardar);
                         writer.write(texto.getText());
                         writer.close();
+                    Practica1.log("Archivo guardado con exito.");
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -403,6 +408,7 @@ public class interfaz extends javax.swing.JFrame {
                     //FileWriter fw = new FileWriter(guardar);
                     writer.write(texto.getText());
                     writer.close();
+                    Practica1.log("Archivo guardado con exito.");
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -414,11 +420,11 @@ public class interfaz extends javax.swing.JFrame {
                 guardar = null;
                 break;
             default:
-                System.out.println("Error fatal!");
+                Practica1.log("Error fatal!");
                 break;
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
-    public void evaluateBloque(String es) {
+    public void evaluateBloque(String es) throws Exception {
         String[] parrafos = es.split("%%");
 
         for (String content : parrafos) {
@@ -427,12 +433,14 @@ public class interfaz extends javax.swing.JFrame {
             try {
                 sin.parse();
             } catch (Exception eret) {
-                System.out.println(eret);
+                Practica1.log(eret.getMessage());
             }
         }
         for (Tree rTree : Practica1.arboles) {
             System.out.println("Arbol lleno: " + rTree.name);
-            rTree.llenarHojas(rTree.root);
+            try{rTree.llenarHojas(rTree.root);}catch(Exception except){
+            Practica1.log(except.getMessage());
+            }
             rTree.generarSiguientes();
             rTree.llenar(rTree.root);
             rTree.print();
@@ -444,11 +452,14 @@ public class interfaz extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
        Practica1.bloques = new LinkedList();
+       Practica1.conjuntos = new LinkedList();
         String raw = this.texto.getText();
         subParser.scanner.evaluate(raw);
         for (String yay : Practica1.bloques) {
-            System.out.println(yay);
-            evaluateBloque(yay);
+            //System.out.println(yay);
+            try{evaluateBloque(yay);}catch(Exception ex1){
+            Practica1.log(ex1.getMessage());
+            }
         }
         Practica1.removeDupes(Practica1.arboles);
         Practica1.showGroups();
@@ -497,7 +508,7 @@ public class interfaz extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().browse(htmlFile.toURI());
         } catch (Exception excp) {
-            System.out.println("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
+            Practica1.log("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
         }
     }//GEN-LAST:event_siguientesActionPerformed
 
@@ -508,7 +519,7 @@ public class interfaz extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().browse(htmlFile.toURI());
         } catch (Exception excp) {
-            System.out.println("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
+            Practica1.log("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
         }
     }//GEN-LAST:event_transicionesActionPerformed
     public void showImage(File imageFile) {
@@ -531,7 +542,7 @@ public class interfaz extends javax.swing.JFrame {
             frame.setVisible(true);
 
         } catch (Exception e) {
-            System.out.println("Ocurrio un error al mostrar imagen: " + e.getMessage());
+            Practica1.log("Ocurrio un error al mostrar imagen: " + e.getMessage());
         }
     }
 

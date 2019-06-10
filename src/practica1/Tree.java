@@ -419,7 +419,7 @@ public class Tree {
 
     }
 
-    public void llenarHojas(Node node) {
+    public void llenarHojas (Node node) throws Exception {
         if (node == null) {
             return;
         }
@@ -437,7 +437,11 @@ public class Tree {
             node.ultimos.add(node.numero);
             this.c++;
             if (!node.completo) {
-                node.contenido = Practica1.getConjunto(node.conjunto_nombre);
+                LinkedList<Character> rConjunto = Practica1.getConjunto(node.conjunto_nombre);
+                if(rConjunto==null){
+                throw new Exception("Error fatal. El conjunto nombrado: "+node.conjunto_nombre+" no existe");
+                }
+                node.contenido = rConjunto;
                 node.completo = true;
                 node.siguientes = new LinkedList();
                 node.anulable = false;

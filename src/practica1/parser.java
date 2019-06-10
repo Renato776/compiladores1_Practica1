@@ -32,8 +32,8 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\033\000\002\002\004\000\002\002\011\000\002\002" +
-    "\007\000\002\002\002\000\002\003\006\000\002\003\004" +
+    "\000\033\000\002\002\004\000\002\002\010\000\002\002" +
+    "\007\000\002\002\002\000\002\003\006\000\002\003\003" +
     "\000\002\004\005\000\002\004\004\000\002\006\003\000" +
     "\002\006\003\000\002\006\003\000\002\006\003\000\002" +
     "\006\003\000\002\006\003\000\002\006\003\000\002\006" +
@@ -48,7 +48,7 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\067\000\010\002\ufffe\006\005\026\004\001\002\000" +
+    "\000\065\000\010\002\ufffe\006\005\026\004\001\002\000" +
     "\004\025\052\001\002\000\004\024\010\001\002\000\004" +
     "\002\007\001\002\000\004\002\001\001\002\000\020\005" +
     "\015\012\020\013\012\017\016\020\017\021\013\023\011" +
@@ -92,17 +92,17 @@ public class parser extends java_cup.runtime.lr_parser {
     "\004\006\053\001\002\000\004\024\054\001\002\000\032" +
     "\004\041\006\040\007\031\012\034\013\036\014\035\017" +
     "\037\020\027\021\033\022\032\023\025\025\026\001\002" +
-    "\000\010\010\064\011\063\014\065\001\002\000\004\014" +
-    "\062\001\002\000\004\014\060\001\002\000\010\002\ufffe" +
-    "\006\005\026\004\001\002\000\004\002\000\001\002\000" +
-    "\004\014\ufffc\001\002\000\032\004\041\006\040\007\031" +
-    "\012\034\013\036\014\035\017\037\020\027\021\033\022" +
-    "\032\023\025\025\026\001\002\000\032\004\041\006\040" +
-    "\007\031\012\034\013\036\014\035\017\037\020\027\021" +
-    "\033\022\032\023\025\025\026\001\002\000\004\014\ufffa" +
-    "\001\002\000\004\014\067\001\002\000\004\014\ufffd\001" +
-    "\002\000\006\011\063\014\065\001\002\000\004\014\ufffb" +
-    "\001\002" });
+    "\000\010\010\062\011\061\014\063\001\002\000\010\002" +
+    "\ufffc\006\ufffc\026\ufffc\001\002\000\010\002\ufffe\006\005" +
+    "\026\004\001\002\000\004\002\000\001\002\000\032\004" +
+    "\041\006\040\007\031\012\034\013\036\014\035\017\037" +
+    "\020\027\021\033\022\032\023\025\025\026\001\002\000" +
+    "\032\004\041\006\040\007\031\012\034\013\036\014\035" +
+    "\017\037\020\027\021\033\022\032\023\025\025\026\001" +
+    "\002\000\010\002\ufffa\006\ufffa\026\ufffa\001\002\000\004" +
+    "\014\065\001\002\000\010\002\ufffd\006\ufffd\026\ufffd\001" +
+    "\002\000\006\011\061\014\063\001\002\000\010\002\ufffb" +
+    "\006\ufffb\026\ufffb\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -110,7 +110,7 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\067\000\004\002\005\001\001\000\002\001\001\000" +
+    "\000\065\000\004\002\005\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
     "\005\013\001\001\000\004\005\047\001\001\000\004\005" +
     "\046\001\001\000\002\001\001\000\002\001\001\000\004" +
@@ -125,11 +125,11 @@ public class parser extends java_cup.runtime.lr_parser {
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\004\005\050\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\010\003\056\004\055\006" +
-    "\054\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\002\060\001\001\000\002\001\001\000" +
-    "\002\001\001\000\006\004\070\006\067\001\001\000\004" +
-    "\006\065\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001" });
+    "\054\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\002\057\001\001\000\002\001\001\000\006\004\066\006" +
+    "\065\001\001\000\004\006\063\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -206,17 +206,17 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // INICIO ::= CONJ DOSPUNTOS IDENTIFIER ARROW S1 PUNTOCOMA INICIO 
+          case 1: // INICIO ::= CONJ DOSPUNTOS IDENTIFIER ARROW S1 INICIO 
             {
               Object RESULT =null;
-		int ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
-		int iright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
-		String i = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
-		int conjuntoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
-		int conjuntoright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		LinkedList<Character> conjunto = (LinkedList<Character>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
+		String i = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		int conjuntoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int conjuntoright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		LinkedList<Character> conjunto = (LinkedList<Character>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 Practica1.conjuntos.add(new Conjunto(i,conjunto)); 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -254,20 +254,20 @@ class CUP$parser$actions {
 		int c2left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int c2right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String c2 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 int ini = (int)c1.charAt(0); int fin = (int)c2.charAt(0); if(c1.length()>1||c2.length()>1){/*throw exception*/} int c = ini; LinkedList<Character> resultado = new LinkedList(); while(c <= fin){ resultado.add((char)c); c++; } RESULT = resultado; 
+		 int ini = (int)c1.charAt(0); int fin = (int)c2.charAt(0); if(c1.length()>1||c2.length()>1){Practica1.log("NO se aceptan mas de un caracter en la definicion de expresiones regulares.");throw new Exception("NO se aceptan mas de un caracter en la definicion de expresiones regulares.");} int c = ini; LinkedList<Character> resultado = new LinkedList(); while(c <= fin){ resultado.add((char)c); c++; } RESULT = resultado; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("S1",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // S1 ::= L PUNTOCOMA 
+          case 5: // S1 ::= L 
             {
               LinkedList<Character> RESULT =null;
-		int listleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
-		int listright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
-		LinkedList<Character> list = (LinkedList<Character>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		int listleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int listright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		LinkedList<Character> list = (LinkedList<Character>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = list; 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("S1",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("S1",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -281,7 +281,7 @@ class CUP$parser$actions {
 		int lileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int liright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		LinkedList<Character> li = (LinkedList<Character>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 if(c.length()>1){/*throw exception*/} li.add(c.charAt(0)); RESULT = li; 
+		 if(c.length()>1){Practica1.log("No se acepta el uso de mas de un caracter");} li.add(c.charAt(0)); RESULT = li; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("L",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -293,7 +293,7 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 if(c.length()>1){/*throw exception*/} LinkedList<Character> res = new LinkedList(); res.add(c.charAt(0)); RESULT = res; 
+		 if(c.length()>1){Practica1.log("No se acepta el uso de mas de un caracter. Se encontro:"+c);} LinkedList<Character> res = new LinkedList(); res.add(c.charAt(0)); RESULT = res; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("L",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -534,8 +534,9 @@ class CUP$parser$actions {
 
           /* . . . . . .*/
           default:
-            throw new Exception(
-               "Invalid action number "+CUP$parser$act_num+"found in internal parse table");
+            
+              Practica1.log("Invalid action number "+CUP$parser$act_num+"found in internal parse table");
+              throw new Exception("Invalid action number "+CUP$parser$act_num+"found in internal parse table");
 
         }
     } /* end of method */

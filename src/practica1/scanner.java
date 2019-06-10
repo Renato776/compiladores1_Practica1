@@ -450,7 +450,7 @@ public class scanner implements java_cup.runtime.Scanner {
     catch (ArrayIndexOutOfBoundsException e) {
       message = ZZ_ERROR_MSG[ZZ_UNKNOWN_ERROR];
     }
-
+    try{Practica1.log(message);}catch(Exception ex2){}
     throw new Error(message);
   } 
 
@@ -652,7 +652,12 @@ public class scanner implements java_cup.runtime.Scanner {
             // fall through
           case 24: break;
           case 5: 
-            { throw new Error("Illegal character <"+
+            { 
+                try{
+            Practica1.log("Illegal character <"+
+                                                    yytext()+">");
+                }catch(Exception excption1){}
+                throw new Error("Illegal character <"+
                                                     yytext()+">");
             } 
             // fall through

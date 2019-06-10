@@ -26,7 +26,7 @@ import org.apache.commons.io.*;
  * @author renato
  */
 public class Practica1 {
-
+    public static interfaz i;
     public static String path = "/home/renato/backup/";
     public static LinkedList<Tree> arboles = new LinkedList();
     public static LinkedList<Conjunto> conjuntos = new LinkedList();
@@ -40,6 +40,11 @@ public class Practica1 {
     System.out.println("Conunto "+conj.nombre+", Contiene: "+content);
     }
     }
+    public static void log (String s){
+    interfaz.log(s, i);
+    //throw new Exception(s);
+    }
+    
     public static boolean isDeclarationBlock(String s){
     return s.contains("->");
     }
@@ -123,7 +128,7 @@ public class Practica1 {
             Runtime rt = Runtime.getRuntime();
             Process pr = rt.exec("inkscape -z -e " + imageFile.getAbsolutePath() + ".png" + " -w 600 -h 600 " + imageFile.getAbsolutePath() + "");
         } catch (Exception ex) {
-            System.out.println("Error al crear grafica: " + ex.getMessage());
+            log("Error al crear grafica: " + ex.getMessage());
         }
     }
 
@@ -143,7 +148,7 @@ public class Practica1 {
             png_ostream.flush();
             png_ostream.close();
         } catch (Exception excp) {
-            System.out.println(excp.getMessage());
+            log(excp.getMessage());
         }
     }
 
@@ -248,7 +253,7 @@ public class Practica1 {
         // TODO code application logic here
             java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                interfaz i = new interfaz();
+                i = new interfaz();
                 i.setVisible(true);
               }
         });
