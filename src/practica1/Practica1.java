@@ -31,7 +31,18 @@ public class Practica1 {
     public static LinkedList<Tree> arboles = new LinkedList();
     public static LinkedList<Conjunto> conjuntos = new LinkedList();
     public static LinkedList<String> bloques = new LinkedList();
-
+    public static void showGroups(){
+    for(Conjunto conj: conjuntos){
+        String content = "";
+        for(Character c: conj.contenido){
+        content = content+" | "+c;
+        }
+    System.out.println("Conunto "+conj.nombre+", Contiene: "+content);
+    }
+    }
+    public static boolean isDeclarationBlock(String s){
+    return s.contains("->");
+    }
     public static boolean treeAlreadyExists(Tree t, LinkedList<Tree> li) {
         for (Tree arbol : li) {
             if (arbol.name.equals(t.name)) {
@@ -235,6 +246,12 @@ public class Practica1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+            java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                interfaz i = new interfaz();
+                i.setVisible(true);
+              }
+        });
     }
 
 }

@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JFileChooser;
 import java.io.*;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
@@ -442,7 +443,7 @@ public class interfaz extends javax.swing.JFrame {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       
+       Practica1.bloques = new LinkedList();
         String raw = this.texto.getText();
         subParser.scanner.evaluate(raw);
         for (String yay : Practica1.bloques) {
@@ -450,6 +451,7 @@ public class interfaz extends javax.swing.JFrame {
             evaluateBloque(yay);
         }
         Practica1.removeDupes(Practica1.arboles);
+        Practica1.showGroups();
         // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
         String[] trees = new String[Practica1.arboles.size()];
         String[] follows = new String[Practica1.arboles.size()];
@@ -564,19 +566,6 @@ public class interfaz extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 interfaz i = new interfaz();
-                /*  DefaultListModel listModel = new DefaultListModel();
-                listModel.addElement("Arboles");
-                listModel.addElement("expr1_arbol.jpg");
-                listModel.addElement("expr2_arbol.jpg");
-                javax.swing.JList list = new javax.swing.JList(listModel);
-                list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-                list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-                list.setVisibleRowCount(-1);
-                JScrollPane listScroller = new JScrollPane(list);
-                listScroller.setPreferredSize(new Dimension(250, 80));
-                i.rPanel.add(listScroller);
-                i.rPanel.setVisible(true);
-                 */
                 i.setVisible(true);
                 // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
             }
