@@ -27,6 +27,7 @@ import org.apache.commons.io.*;
  */
 public class Practica1 {
     public static interfaz i;
+    public static int xmlCounter = 0;
     public static String path = "/home/renato/backup/";
     public static LinkedList<Tree> arboles = new LinkedList();
     public static LinkedList<Conjunto> conjuntos = new LinkedList();
