@@ -5,14 +5,20 @@
  */
 package practica1;
 
+import java.awt.BorderLayout;
 import java.util.*;
 import java.io.*;
 import java.awt.image.*;
+import java.nio.file.Paths;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import org.apache.batik.transcoder.*;
 import org.apache.batik.transcoder.image.ImageTranscoder;
 import org.apache.batik.dom.svg.*;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.apache.batik.util.*;
-
 import org.apache.commons.io.*;
 
 /**
@@ -24,6 +30,7 @@ public class Practica1 {
     public static String path = "/home/renato/backup/";
     public static LinkedList<Tree> arboles = new LinkedList();
     public static LinkedList<Conjunto> conjuntos = new LinkedList();
+    public static LinkedList<String> bloques = new LinkedList();
 
     public static BufferedImage rasterize(File svgFile) throws IOException {
 
@@ -82,6 +89,32 @@ public class Practica1 {
 
     return imagePointer[0];
 }
+   
+    public static void generarPNG(File imageFile){
+    try {
+                Runtime rt = Runtime.getRuntime();
+                Process pr = rt.exec("inkscape -z -e " + imageFile.getAbsolutePath() + ".png" + " -w 600 -h 600 " + imageFile.getAbsolutePath() + "");
+            } catch (Exception ex) {
+                System.out.println("Error al crear grafica: " + ex.getMessage());
+            }
+    }
+    public static void generatePNG(File svgFile){
+        try{
+               String svg_URI_input = Paths.get(svgFile.getAbsolutePath()).toUri().toURL().toString();
+            TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
+            //Step-2: Define OutputStream to PNG Image and attach to TranscoderOutput
+            System.out.println("about to write file to:"+ path+svgFile.getName()+".PNG");
+            OutputStream png_ostream = new FileOutputStream(path+svgFile.getName()+".PNG");
+            TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
+            // Step-3: Create PNGTranscoder and define hints if required
+            PNGTranscoder my_converter = new PNGTranscoder();        
+            // Step-4: Convert and Write output
+            my_converter.transcode(input_svg_image, output_png_image);
+            // Step 5- close / flush Output Stream
+            png_ostream.flush();
+            png_ostream.close();   
+         }catch(Exception excp){System.out.println(excp.getMessage());}
+         }
     
     public static boolean compare(LinkedList<Integer> first, LinkedList<Integer> last) {
         boolean result = first.size() == last.size();

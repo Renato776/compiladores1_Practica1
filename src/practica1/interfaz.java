@@ -5,7 +5,10 @@
  */
 package practica1;
 
+import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.ScrollPane;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -13,6 +16,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JList;
@@ -32,6 +36,17 @@ public class interfaz extends javax.swing.JFrame {
      */
     public interfaz() {
         initComponents();
+    }
+
+    public void waitUntilExists(String f) {
+        File file = new File(f);
+        while (!file.exists()) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception exceptionEx) {
+
+            }
+        }
     }
 
     /**
@@ -68,9 +83,6 @@ public class interfaz extends javax.swing.JFrame {
         automatas = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         transiciones = new javax.swing.JComboBox<>();
-        jPanel1 = new javax.swing.JPanel();
-        galleryTitle = new javax.swing.JLabel();
-        trueGallery = new javax.swing.JScrollPane();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -202,38 +214,29 @@ public class interfaz extends javax.swing.JFrame {
         jLabel5.setText("Tabla de siguientes");
 
         siguientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        siguientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siguientesActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Automatas");
 
         automatas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        automatas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                automatasActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Tabla de transciones");
 
         transiciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        galleryTitle.setText("Grafica");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(165, 165, 165)
-                .addComponent(galleryTitle)
-                .addContainerGap(202, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(trueGallery)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(galleryTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(trueGallery, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                .addGap(51, 51, 51))
-        );
+        transiciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transicionesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -263,9 +266,7 @@ public class interfaz extends javax.swing.JFrame {
                     .addComponent(siguientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(arboles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,10 +309,6 @@ public class interfaz extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(automatas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -420,27 +417,39 @@ public class interfaz extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+    public void evaluateBloque(String es) {
+        String[] parrafos = es.split("%%");
 
+        for (String content : parrafos) {
+            scanner lexico = new scanner(new BufferedReader(new StringReader(content)));
+            parser sin = new parser(lexico);
+            try {
+                sin.parse();
+            } catch (Exception eret) {
+                System.out.println(eret);
+            }
+        }
+        for (Tree rTree : Practica1.arboles) {
+            System.out.println("Arbol lleno: " + rTree.name);
+            rTree.llenarHojas(rTree.root);
+            rTree.generarSiguientes();
+            rTree.llenar(rTree.root);
+            rTree.print();
+            rTree.getSiguientes();
+            rTree.getTablaTransiciones();
+            rTree.printAutomata();
+        }
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String raw = texto.getText();
-        String[] parrafos = raw.split("%%");
-          
-        for (String content : parrafos) {
-         scanner lexico = new scanner(new BufferedReader(new StringReader(content)));        
-        parser sin = new parser(lexico);
-        try{sin.parse();}catch(Exception eret){System.out.println(eret);}
+
+        String raw = this.texto.getText();
+        subParser.scanner.evaluate(raw);
+        for (String yay : Practica1.bloques) {
+            System.out.println(yay);
+            evaluateBloque(yay);
         }
-        for(Tree rTree: Practica1.arboles){
-        System.out.println("Arbol lleno: "+rTree.name);
-        rTree.llenarHojas(rTree.root);
-        rTree.generarSiguientes();
-        rTree.llenar(rTree.root);
-        rTree.print();
-        rTree.getSiguientes();
-        rTree.getTablaTransiciones();
-        rTree.printAutomata();
-        }
+
         // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
         String[] trees = new String[Practica1.arboles.size()];
         String[] follows = new String[Practica1.arboles.size()];
@@ -450,9 +459,13 @@ public class interfaz extends javax.swing.JFrame {
         int c = 0;
         for (Tree arbol : Practica1.arboles) {
             trees[c] = arbol.name + arbolEnding;
-            follows[c] = arbol.name + "_siguientes.svg";
-            transitions[c] = arbol.name + "_transiciones.svg";
+            follows[c] = arbol.name + "_siguientes.html";
+            transitions[c] = arbol.name + "_transiciones.html";
             afds[c] = arbol.name + "_automata.svg";
+            File tempFile = new File(Practica1.path + trees[c]);
+            Practica1.generarPNG(tempFile);
+            tempFile = new File(Practica1.path + afds[c]);
+            Practica1.generarPNG(tempFile);
             c++;
         }
         this.arboles.setModel(new javax.swing.DefaultComboBoxModel(trees));
@@ -464,24 +477,61 @@ public class interfaz extends javax.swing.JFrame {
     private void arbolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arbolesActionPerformed
         // TODO add your handling code here:
         String imageName = arboles.getItemAt(arboles.getSelectedIndex());
-    galleryTitle.setText(imageName);
-    System.out.println();
-    File imageFile = new File(Practica1.path+imageName);
-    System.out.println("Se encotro la imagen: "+imageFile.exists());
-    try{
-            BufferedImage image = Practica1.rasterize(imageFile);
-            JLabel myNewLabel = new JLabel(new javax.swing.ImageIcon(image));
-    //gallery.setIcon(new javax.swing.ImageIcon (image));
-    System.out.println("Intentando mostrar imagen: "+myNewLabel.toString());
-    trueGallery.add(myNewLabel);
-    trueGallery.setVisible(false);
-    trueGallery.setVisible(true);
-    //trueGallery.add(gallery);
-   }catch(Exception e){
-       System.out.println("Ocurrio un error al mostrar imagen: "+e.getMessage());
-        }
-   
+        File imageFile = new File(Practica1.path + imageName);
+        this.showImage(imageFile);
     }//GEN-LAST:event_arbolesActionPerformed
+
+    private void automatasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_automatasActionPerformed
+        // TODO add your handling code here:
+        String imageName = automatas.getItemAt(automatas.getSelectedIndex());
+        File imageFile = new File(Practica1.path + imageName);
+        this.showImage(imageFile);
+    }//GEN-LAST:event_automatasActionPerformed
+
+    private void siguientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientesActionPerformed
+        // TODO add your handling code here:
+        String reportName = siguientes.getItemAt(siguientes.getSelectedIndex());
+        File htmlFile = new File(Practica1.path + reportName);
+        try {
+            Desktop.getDesktop().browse(htmlFile.toURI());
+        } catch (Exception excp) {
+            System.out.println("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
+        }
+    }//GEN-LAST:event_siguientesActionPerformed
+
+    private void transicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transicionesActionPerformed
+        // TODO add your handling code here:
+         String reportName = transiciones.getItemAt(transiciones.getSelectedIndex());
+        File htmlFile = new File(Practica1.path + reportName);
+        try {
+            Desktop.getDesktop().browse(htmlFile.toURI());
+        } catch (Exception excp) {
+            System.out.println("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
+        }
+    }//GEN-LAST:event_transicionesActionPerformed
+    public void showImage(File imageFile) {
+        try {
+//Practica1.generatePNG(imageFile);
+            this.waitUntilExists(imageFile.getAbsolutePath() + ".png");
+            BufferedImage image = ImageIO.read(new File(imageFile.getAbsolutePath() + ".png"));
+            JLabel myNewLabel = new JLabel(new javax.swing.ImageIcon(image));
+            //gallery.setIcon(new javax.swing.ImageIcon (image));
+            // System.out.println("Intentando mostrar imagen: " + myNewLabel.toString());
+
+            JFrame frame = new JFrame();
+
+            JScrollPane scrollableTextArea = new JScrollPane(myNewLabel);
+            scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollableTextArea.setSize(700, 700);
+            frame.getContentPane().add(scrollableTextArea, BorderLayout.CENTER);
+            frame.setSize(800, 800);
+            frame.setVisible(true);
+
+        } catch (Exception e) {
+            System.out.println("Ocurrio un error al mostrar imagen: " + e.getMessage());
+        }
+    }
 
     /**
      * @param args the command line argument
@@ -528,7 +578,7 @@ public class interfaz extends javax.swing.JFrame {
                 i.rPanel.setVisible(true);
                  */
                 i.setVisible(true);
-               // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
+                // i.arboles.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"arbol.jpg", "arbol2.jpg"}));
             }
         });
     }
@@ -537,7 +587,6 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> arboles;
     private javax.swing.JComboBox<String> automatas;
     private javax.swing.JTextArea console;
-    private javax.swing.JLabel galleryTitle;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDialog jDialog1;
@@ -555,12 +604,10 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> siguientes;
     private javax.swing.JTextArea texto;
     private javax.swing.JComboBox<String> transiciones;
-    private javax.swing.JScrollPane trueGallery;
     // End of variables declaration//GEN-END:variables
 }
