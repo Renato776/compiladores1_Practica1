@@ -490,8 +490,9 @@ public class interfaz extends javax.swing.JFrame {
     }
 
     public void evaluar(String s) {
-        if (!Practica1.isDeclarationBlock(s)) {
-            evaluacion.scanner.evaluate(s);
+        for(String es: s.split("%%")){
+         if (!Practica1.isDeclarationBlock(es)) {
+            evaluacion.scanner.evaluate(es);
             String resultado = "";
             for (Evaluacion eval : Practica1.evaluaciones) {
                 boolean result = eval.evaluate();
@@ -502,6 +503,8 @@ public class interfaz extends javax.swing.JFrame {
                 }
             }
         }
+        }
+       
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -583,6 +586,7 @@ public class interfaz extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         evaluar();
+        Practica1.evaluaciones= new LinkedList();
     }//GEN-LAST:event_jButton2ActionPerformed
     public void showImage(File imageFile) {
         try {

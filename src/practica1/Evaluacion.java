@@ -33,18 +33,20 @@ public class Evaluacion {
             for (Character c : this.contenido.toCharArray()) {
                 palabra.add(c);
             }
-            return evaluate(inicio, palabra.pollFirst());
+            char begin = palabra.pollFirst();
+            System.out.println("Comenzando a evaluar: con character: "+begin);
+            return evaluate(inicio, begin);
         }
     }
 
     public boolean evaluate(Estado e, char c) {
         for (Edge t : e.transiciones) {
             if (t.contains(c)) {
-                char sigChar = palabra.pollFirst();
-                if (sigChar == 0) {
+                //char sigChar = palabra.pollFirst();
+                if (palabra.isEmpty()) {
                     return t.destino.aceptacion;
                 } else {
-                    return evaluate(t.destino, sigChar);
+                    return evaluate(t.destino, palabra.pollFirst());
                 }
             }
         }

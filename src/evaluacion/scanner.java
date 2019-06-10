@@ -13,15 +13,6 @@ import java_cup.runtime.Symbol;
 
 public class scanner implements java_cup.runtime.Scanner {
 
-    public static void evaluate(String es){
-scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
-            parser sin = new parser(lexico);
-            try {
-                sin.parse();
-            } catch (Exception eret) {
-                System.out.println(eret);
-            }
-}
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
 
@@ -45,12 +36,12 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
    * Translates characters to character classes
    */
   private static final char [] ZZ_CMAP = {
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  6,  5,  0,  6,  4,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  7,  6,  0,  7,  5,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     6,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  7, 
-     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  8,  9,  0,  0,  0,  0, 
+     7,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  9, 10,  0,  0,  0,  0, 
      0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
-     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0,  0,  1, 
+     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  4,  0,  0,  1, 
      0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
      1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -98,8 +89,8 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\12\0\24\0\36\0\50\0\62\0\50\0\50"+
-    "\0\74\0\106\0\50";
+    "\0\0\0\13\0\26\0\41\0\54\0\67\0\54\0\54"+
+    "\0\102\0\115\0\54";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[11];
@@ -125,13 +116,13 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\0\1\2\1\0\1\3\1\4\2\5\1\6\1\7"+
-    "\1\10\1\0\2\2\7\0\3\11\1\0\6\11\5\0"+
-    "\1\5\25\0\1\12\5\0\1\13\6\0\4\12\1\4"+
-    "\1\5\4\12";
+    "\1\0\1\2\1\0\1\3\1\0\1\4\2\5\1\6"+
+    "\1\7\1\10\1\0\2\2\10\0\3\11\4\0\4\11"+
+    "\6\0\1\5\27\0\1\12\2\0\3\11\1\13\3\0"+
+    "\4\11\5\12\1\4\1\5\4\12";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[80];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -257,6 +248,15 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private Symbol symbol(int type, Object value) {
     return new Symbol(type, yyline, yycolumn, value);
   }
+  public static void evaluate(String es){
+scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
+            parser sin = new parser(lexico);
+            try {
+                sin.parse();
+            } catch (Exception eret) {
+                System.out.println(eret);
+            }
+}
 
 
   /**
