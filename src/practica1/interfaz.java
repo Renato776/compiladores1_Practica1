@@ -497,21 +497,21 @@ public class interfaz extends javax.swing.JFrame {
             for (Evaluacion eval : Practica1.evaluaciones) {
                 boolean result = eval.evaluate();
                 if (result) {
-                    Practica1.log("La cadena: \"" + eval.contenido + "\" es una cadena valida para la expresion: "+eval.expresion);
-                resultado = resultado +"<Expresion>"+"\n"+"<Valor>"+eval.contenido.split("\"")[1]+"</Valor>"+"\n";
+                    Practica1.log("La cadena: \"" + eval.contenido + "\" es una cadena valida");
+                resultado = resultado +"<Expresion>"+"\n"+"<Valor>"+eval.contenido+"</Valor>"+"\n";
                 resultado = resultado +"<ER>"+eval.expresion+"</ER>"+"\n";
                 resultado = resultado +"<Resultado>"+"Cadena Valida"+"</Resultado>"+"\n";
                 resultado = resultado + "</Expresion>"+"\n";
                 } else {
-                    Practica1.log("La cadena: \"" + eval.contenido + "\" NO una cadena valida para la expresion: "+eval.expresion);
-                resultado = resultado +"<Expresion>"+"\n"+"<Valor>"+eval.contenido.split("\"")[1]+"</Valor>"+"\n";
+                    Practica1.log("La cadena: \"" + eval.contenido + "\" NO una cadena valida.");
+                resultado = resultado +"<Expresion>"+"\n"+"<Valor>"+eval.contenido+"</Valor>"+"\n";
                 resultado = resultado +"<ER>"+eval.expresion+"</ER>"+"\n";
                 resultado = resultado +"<Resultado>"+"Cadena NO Valida"+"</Resultado>"+"\n";
                 resultado = resultado + "</Expresion>"+"\n";
                 }
             }
             resultado = resultado+"</Salida>";
-        try {
+        /*try {
                         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Practica1.path+"XML_Output"+Practica1.xmlCounter+".xml"), true));
                         //FileWriter fw = new FileWriter(guardar);
                         writer.write(resultado);
@@ -531,6 +531,7 @@ public class interfaz extends javax.swing.JFrame {
         } catch (Exception excp) {
             Practica1.log("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
         }
+            */
          }
         }
        
