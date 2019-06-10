@@ -31,6 +31,7 @@ public class Practica1 {
     public static LinkedList<Tree> arboles = new LinkedList();
     public static LinkedList<Conjunto> conjuntos = new LinkedList();
     public static LinkedList<String> bloques = new LinkedList();
+    public static LinkedList<Evaluacion> evaluaciones = new LinkedList();
     public static void showGroups(){
     for(Conjunto conj: conjuntos){
         String content = "";
@@ -44,7 +45,17 @@ public class Practica1 {
     interfaz.log(s, i);
     //throw new Exception(s);
     }
-    
+    public static Tree getTree(String s){
+    for (Tree t:arboles){
+    if(t.name.equals(s))return t;
+    }
+    return null;
+    }
+    public static void evaluateExpresions(){
+    for(Evaluacion ev : evaluaciones){
+    ev.evaluate();
+    }
+    }
     public static boolean isDeclarationBlock(String s){
     return s.contains("->");
     }
@@ -255,6 +266,26 @@ public class Practica1 {
             public void run() {
                 i = new interfaz();
                 i.setVisible(true);
+                String prueba = "\"primerLexemaCokoa\" ";
+                System.out.println(prueba);
+                System.out.println("length: "+prueba.split("\"").length);
+                for(String test:prueba.split("\"")){
+                System.out.println("Contenido: "+test);
+                }
+                
+                String prueba1 = "primerLexemaCokoa";
+                System.out.println(prueba1);
+                System.out.println("length: "+prueba1.split("\"").length);
+                for(String test:prueba1.split("\"")){
+                System.out.println("Contenido en prueba1: "+test);
+                }
+                
+                String prueba2 = "\"primerLexemaCokoa";
+                System.out.println(prueba2);
+                System.out.println("length: "+prueba2.split("\"").length);
+                for(String test:prueba2.split("\"")){
+                System.out.println("Contenido en prueba2: "+test);
+                }
               }
         });
     }

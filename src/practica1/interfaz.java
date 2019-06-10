@@ -38,10 +38,12 @@ public class interfaz extends javax.swing.JFrame {
     public interfaz() {
         initComponents();
     }
-    public static void log(String s, interfaz i ){
-    String old = i.console.getText()+"\n";
-    i.console.setText(old+s);
+
+    public static void log(String s, interfaz i) {
+        String old = i.console.getText() + "\n";
+        i.console.setText(old + s);
     }
+
     public void waitUntilExists(String f) {
         File file = new File(f);
         while (!file.exists()) {
@@ -87,6 +89,7 @@ public class interfaz extends javax.swing.JFrame {
         automatas = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         transiciones = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -242,24 +245,34 @@ public class interfaz extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Evaluar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane3))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane3))
+                        .addGap(54, 54, 54)
+                        .addComponent(jButton1)
+                        .addGap(78, 78, 78)
+                        .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -297,10 +310,12 @@ public class interfaz extends javax.swing.JFrame {
                                 .addComponent(siguientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(arboles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -389,7 +404,7 @@ public class interfaz extends javax.swing.JFrame {
                         //FileWriter fw = new FileWriter(guardar);
                         writer.write(texto.getText());
                         writer.close();
-                    Practica1.log("Archivo guardado con exito.");
+                        Practica1.log("Archivo guardado con exito.");
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -424,22 +439,30 @@ public class interfaz extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
     public void evaluateBloque(String es) throws Exception {
         String[] parrafos = es.split("%%");
 
         for (String content : parrafos) {
-            scanner lexico = new scanner(new BufferedReader(new StringReader(content)));
-            parser sin = new parser(lexico);
-            try {
-                sin.parse();
-            } catch (Exception eret) {
-                Practica1.log(eret.getMessage());
+            if (Practica1.isDeclarationBlock(content)) {
+                scanner lexico = new scanner(new BufferedReader(new StringReader(content)));
+                parser sin = new parser(lexico);
+                try {
+                    sin.parse();
+                } catch (Exception eret) {
+                    Practica1.log(eret.getMessage());
+                }
+            } else {
+                // evaluar();
             }
+
         }
         for (Tree rTree : Practica1.arboles) {
             System.out.println("Arbol lleno: " + rTree.name);
-            try{rTree.llenarHojas(rTree.root);}catch(Exception except){
-            Practica1.log(except.getMessage());
+            try {
+                rTree.llenarHojas(rTree.root);
+            } catch (Exception except) {
+                Practica1.log(except.getMessage());
             }
             rTree.generarSiguientes();
             rTree.llenar(rTree.root);
@@ -449,16 +472,50 @@ public class interfaz extends javax.swing.JFrame {
             rTree.printAutomata();
         }
     }
+
+    public void evaluar() {
+        String raw = this.texto.getText();
+        Practica1.bloques = new LinkedList();
+        subParser.scanner.evaluate(raw);
+        for (String yay : Practica1.bloques) {
+            //System.out.println(yay);
+            try {
+                evaluar(yay);
+            } catch (Exception ex1) {
+                Practica1.log(ex1.getMessage());
+            }
+        }
+       // Practica1.removeDupes(Practica1.arboles);
+       // Practica1.showGroups();
+    }
+
+    public void evaluar(String s) {
+        if (!Practica1.isDeclarationBlock(s)) {
+            evaluacion.scanner.evaluate(s);
+            String resultado = "";
+            for (Evaluacion eval : Practica1.evaluaciones) {
+                boolean result = eval.evaluate();
+                if (result) {
+                    Practica1.log("La cadena: " + eval.contenido + " es una cadena valida.");
+                } else {
+                    Practica1.log("La cadena: " + eval.contenido + " NO una cadena valida.");
+                }
+            }
+        }
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       Practica1.bloques = new LinkedList();
-       Practica1.conjuntos = new LinkedList();
+        Practica1.bloques = new LinkedList();
+        Practica1.conjuntos = new LinkedList();
+        Practica1.evaluaciones = new LinkedList();
         String raw = this.texto.getText();
         subParser.scanner.evaluate(raw);
         for (String yay : Practica1.bloques) {
             //System.out.println(yay);
-            try{evaluateBloque(yay);}catch(Exception ex1){
-            Practica1.log(ex1.getMessage());
+            try {
+                evaluateBloque(yay);
+            } catch (Exception ex1) {
+                Practica1.log(ex1.getMessage());
             }
         }
         Practica1.removeDupes(Practica1.arboles);
@@ -514,7 +571,7 @@ public class interfaz extends javax.swing.JFrame {
 
     private void transicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transicionesActionPerformed
         // TODO add your handling code here:
-         String reportName = transiciones.getItemAt(transiciones.getSelectedIndex());
+        String reportName = transiciones.getItemAt(transiciones.getSelectedIndex());
         File htmlFile = new File(Practica1.path + reportName);
         try {
             Desktop.getDesktop().browse(htmlFile.toURI());
@@ -522,6 +579,11 @@ public class interfaz extends javax.swing.JFrame {
             Practica1.log("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
         }
     }//GEN-LAST:event_transicionesActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        evaluar();
+    }//GEN-LAST:event_jButton2ActionPerformed
     public void showImage(File imageFile) {
         try {
 //Practica1.generatePNG(imageFile);
@@ -588,6 +650,7 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> automatas;
     private javax.swing.JTextArea console;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;

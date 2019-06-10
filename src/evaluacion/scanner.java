@@ -2,7 +2,7 @@
 
 // JFlex example from the user Manual
 
-package subParser;
+package evaluacion;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -12,7 +12,8 @@ import java_cup.runtime.Symbol;
 
 
 public class scanner implements java_cup.runtime.Scanner {
-public static void evaluate(String es){
+
+    public static void evaluate(String es){
 scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
             parser sin = new parser(lexico);
             try {
@@ -44,14 +45,14 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
    * Translates characters to character classes
    */
   private static final char [] ZZ_CMAP = {
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  0,  0,  2,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  6,  5,  0,  6,  4,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  0,  1,  0,  0, 
+     6,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  7, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  8,  9,  0,  0,  0,  0, 
+     0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
+     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0,  0,  1, 
+     0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
+     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -68,10 +69,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\1\1\3\1\1\1\0\2\4";
+    "\1\0\1\1\1\0\2\2\1\0\1\3\1\4\2\0"+
+    "\1\5";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[9];
+    int [] result = new int[11];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -96,11 +98,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\6\0\14\0\22\0\14\0\30\0\36\0\44"+
-    "\0\14";
+    "\0\0\0\12\0\24\0\36\0\50\0\62\0\50\0\50"+
+    "\0\74\0\106\0\50";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[9];
+    int [] result = new int[11];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -123,13 +125,13 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\2\2\1\4\1\5\1\2\1\0\3\2"+
-    "\7\0\1\2\1\0\2\2\1\6\1\0\1\6\1\7"+
-    "\2\2\1\6\3\7\1\10\1\11\2\7\3\0\1\11"+
-    "\2\0";
+    "\1\0\1\2\1\0\1\3\1\4\2\5\1\6\1\7"+
+    "\1\10\1\0\2\2\7\0\3\11\1\0\6\11\5\0"+
+    "\1\5\25\0\1\12\5\0\1\13\6\0\4\12\1\4"+
+    "\1\5\4\12";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[42];
+    int [] result = new int[80];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -167,11 +169,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\1\1\11\1\1\1\11\1\1\1\0\1\1"+
+    "\1\0\1\1\1\0\1\1\1\11\1\0\2\11\2\0"+
     "\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[9];
+    int [] result = new int[11];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -623,25 +625,30 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { System.out.println(sym.ESPECIAL+" "+yytext());return new Symbol(sym.ESPECIAL,yycolumn,yyline,yytext());
-            } 
-            // fall through
-          case 5: break;
-          case 2: 
-            { System.out.println(sym.CLOSINGBRACKET+" "+yytext()); return new Symbol(sym.CLOSINGBRACKET,yycolumn,yyline,yytext());
+            { System.out.println(sym.IDENTIFIER+" "+yytext());return new Symbol(sym.IDENTIFIER,yycolumn,yyline,yytext());
             } 
             // fall through
           case 6: break;
-          case 3: 
-            { System.out.println(sym.OPENBRACKET+" "+yytext()); return new Symbol(sym.OPENBRACKET,yycolumn,yyline,yytext());
-            } 
-            // fall through
-          case 7: break;
-          case 4: 
+          case 2: 
             { /* ignore */
             } 
             // fall through
+          case 7: break;
+          case 3: 
+            { System.out.println(sym.DOSPUNTOS+" "+yytext()); return new Symbol(sym.DOSPUNTOS,yycolumn,yyline,yytext());
+            } 
+            // fall through
           case 8: break;
+          case 4: 
+            { System.out.println(sym.PUNTOCOMA+" "+yytext()); return new Symbol(sym.PUNTOCOMA,yycolumn,yyline,yytext());
+            } 
+            // fall through
+          case 9: break;
+          case 5: 
+            { System.out.println(sym.STRINGLITERAL+" "+yytext()); return new Symbol(sym.STRINGLITERAL,yycolumn,yyline,yytext());
+            } 
+            // fall through
+          case 10: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

@@ -24,7 +24,7 @@ public class Edge {
     }
     
     
-    public boolean avanza(char c){
+    public boolean contains(char c){
     for(char rChar:this.contenido){
     if(rChar==c){
     return true;
