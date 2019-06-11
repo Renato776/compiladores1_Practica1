@@ -44,11 +44,16 @@ public class interfaz extends javax.swing.JFrame {
         i.console.setText(old + s);
     }
 
-    public void waitUntilExists(String f) {
+    public void waitUntilExists(String f) throws Exception {
+        int intentos = 0;
         File file = new File(f);
         while (!file.exists()) {
             try {
                 Thread.sleep(1000);
+                intentos++;
+                if (intentos > 15) {
+                    throw new Exception("Error al abrir archivo: " + f + "; El Archivo aun no existe, puede ser que aun se este creando.");
+                }
             } catch (Exception exceptionEx) {
 
             }
@@ -429,6 +434,19 @@ public class interfaz extends javax.swing.JFrame {
                 }
                 break;
             case 3: //Generar XML
+                String newPath = "";
+                     JFileChooser chooser1 = new JFileChooser();
+                chooser1.setCurrentDirectory(new File("/home/renato/Desktop"));
+                int retrival1 = chooser1.showSaveDialog(null);
+                if (retrival1 == JFileChooser.APPROVE_OPTION) {
+                    newPath = chooser1.getSelectedFile() + ".xml";
+                }
+                try {
+                    //Evaluate and 
+                    evaluar(newPath);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case 4: //nuevo
                 texto.setText("");
@@ -472,69 +490,92 @@ public class interfaz extends javax.swing.JFrame {
             rTree.printAutomata();
         }
     }
-
-    public void evaluar() {
+    
+    public void evaluar(String path) {
         String raw = this.texto.getText();
         Practica1.bloques = new LinkedList();
         subParser.scanner.evaluate(raw);
         for (String yay : Practica1.bloques) {
             //System.out.println(yay);
             try {
-                evaluar(yay);
+                evaluar(yay, path);
             } catch (Exception ex1) {
                 Practica1.log(ex1.getMessage());
             }
         }
-       // Practica1.removeDupes(Practica1.arboles);
-       // Practica1.showGroups();
+        // Practica1.removeDupes(Practica1.arboles);
+        // Practica1.showGroups();
+    }
+ public void trueXMLPrint(int size, String result, String newPath){
+     if(size>0){writeXML(result,newPath);}
+ }
+ public void trueXMLPrint(int size, String result){
+ if(size>0){writeXML(result);}
+ }
+    public void evaluar(String s, String path) throws Exception {
+        for (String es : s.split("%%")) {
+            if (!Practica1.isDeclarationBlock(es)) {
+                evaluacion.scanner.evaluate(es);
+                String resultado = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<Salida>" + "\n";
+                
+                for (Evaluacion eval : Practica1.evaluaciones) {
+                    boolean result = eval.evaluate();
+                    if (result) {
+                        Practica1.log("La cadena: \"" + eval.contenido + "\" es una cadena valida");
+                        resultado = resultado + getXMLEntry(eval.contenido, eval.expresion, "Cadena Valida");
+                    } else {
+                        Practica1.log("La cadena: \"" + eval.contenido + "\" NO una cadena valida.");
+                        resultado = resultado + getXMLEntry(eval.contenido, eval.expresion, "Cadena NO Valida");
+                    }
+                }
+                resultado = resultado + "</Salida>";
+                trueXMLPrint(Practica1.evaluaciones.size(),resultado,path);
+            }
+        }
     }
 
-    public void evaluar(String s) {
-        for(String es: s.split("%%")){
-         if (!Practica1.isDeclarationBlock(es)) {
-            evaluacion.scanner.evaluate(es);
-            String resultado = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-"<Salida>"+"\n";
-            for (Evaluacion eval : Practica1.evaluaciones) {
-                boolean result = eval.evaluate();
-                if (result) {
-                    Practica1.log("La cadena: \"" + eval.contenido + "\" es una cadena valida");
-                resultado = resultado+getXMLEntry(eval.contenido,eval.expresion,"Cadena Valida");
-                } else {
-                    Practica1.log("La cadena: \"" + eval.contenido + "\" NO una cadena valida.");
-               resultado = resultado+getXMLEntry(eval.contenido,eval.expresion,"Cadena NO Valida");
-                 }
-            }
-            resultado = resultado+"</Salida>";
-        if(Practica1.evaluaciones.size()>0)writeXML(resultado);
-        
-        // open just created file
-              /*      this.waitUntilExists(Practica1.path + "XML_Output"+Practica1.xmlCounter+".xml");
-
-        File htmlFile = new File(Practica1.path + "XML_Output"+Practica1.xmlCounter+".xml");
+    public void openXMLFile(String fi) {
+        try {
+            this.waitUntilExists(fi);
+        } catch (Exception ja) {
+            Practica1.log(ja.getMessage());
+            return;
+        }
+        File htmlFile = new File(fi);
         try {
             Desktop.getDesktop().browse(htmlFile.toURI());
         } catch (Exception excp) {
             Practica1.log("Ocurrio un error al mostrar el reporte: " + excp.getMessage());
         }
-            */
-         }
+    }
+
+    public void writeXML(String s) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Practica1.path + "XML_Output" + Practica1.xmlCounter + ".xml"), false));
+            //FileWriter fw = new FileWriter(guardar);
+            writer.write(s);
+            writer.close();
+            //console.setText(console.getText()+"\n"+"intentando imprimir: "+texto.getText());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        Practica1.xmlCounter++;
+    }
+        public void writeXML(String s,String newPath) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(newPath), false));
+            //FileWriter fw = new FileWriter(guardar);
+            writer.write(s);
+            writer.close();
+            //console.setText(console.getText()+"\n"+"intentando imprimir: "+texto.getText());
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
-    public void writeXML(String s){
-    try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Practica1.path+"XML_Output"+Practica1.xmlCounter+".xml"), false));
-                        //FileWriter fw = new FileWriter(guardar);
-                        writer.write(s);
-                        writer.close();
-                        //console.setText(console.getText()+"\n"+"intentando imprimir: "+texto.getText());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-    Practica1.xmlCounter++;
-    }
-    public String getXMLEntry(String valor, String expresion, String resultado){
-    return "<Expresion><Valor>"+valor+"</Valor><ER>"+expresion+"</ER><Resultado>"+resultado+"</Resultado></Expresion>"+"\n";
+
+    public String getXMLEntry(String valor, String expresion, String resultado) {
+        return "<Expresion><Valor>" + valor + "</Valor><ER>" + expresion + "</ER><Resultado>" + resultado + "</Resultado></Expresion>" + "\n";
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -615,8 +656,9 @@ public class interfaz extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        evaluar();
-        Practica1.evaluaciones= new LinkedList();
+        evaluar(Practica1.path+"salida"+Practica1.xmlCounter+".xml");
+        Practica1.evaluaciones = new LinkedList();
+        Practica1.xmlCounter++;
     }//GEN-LAST:event_jButton2ActionPerformed
     public void showImage(File imageFile) {
         try {

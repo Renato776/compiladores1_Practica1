@@ -5,10 +5,12 @@
         <group>
             <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/Tree.java</file>
             <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/interfaz.java</file>
+            <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/Evaluacion.java</file>
+            <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/Estado.java</file>
+            <file>file:/home/renato/NetBeansProjects/practica1/src/evaluacion/scanner.java</file>
             <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/parser.java</file>
-            <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/Conjunto.java</file>
             <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/Practica1.java</file>
-            <file>file:/home/renato/NetBeansProjects/practica1/src/practica1/Node.java</file>
+            <file>file:/home/renato/NetBeansProjects/practica1/src/evaluacion/parser.java</file>
         </group>
     </open-files>
 </project-private>
