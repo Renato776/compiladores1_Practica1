@@ -167,6 +167,36 @@ public class parser extends java_cup.runtime.lr_parser {
   public int error_sym() {return 1;}
 
 
+  
+     //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+       practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+       
+        }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico, Error Fatal !!!!!!! ");
+        practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+
+    }
+   
+
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$parser$actions {
@@ -254,7 +284,7 @@ class CUP$parser$actions {
 		int c2left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int c2right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String c2 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 int ini = (int)c1.charAt(0); int fin = (int)c2.charAt(0); if(c1.length()>1||c2.length()>1){Practica1.log("NO se aceptan mas de un caracter en la definicion de expresiones regulares.");throw new Exception("NO se aceptan mas de un caracter en la definicion de expresiones regulares.");} int c = ini; LinkedList<Character> resultado = new LinkedList(); while(c <= fin){ resultado.add((char)c); c++; } RESULT = resultado; 
+		 int ini = (int)c1.charAt(0); int fin = (int)c2.charAt(0); if(c1.length()>1||c2.length()>1){/*throw exception*/} int c = ini; LinkedList<Character> resultado = new LinkedList(); while(c <= fin){ resultado.add((char)c); c++; } RESULT = resultado; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("S1",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -281,7 +311,7 @@ class CUP$parser$actions {
 		int lileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int liright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		LinkedList<Character> li = (LinkedList<Character>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 if(c.length()>1){Practica1.log("No se acepta el uso de mas de un caracter");} li.add(c.charAt(0)); RESULT = li; 
+		 if(c.length()>1){/*throw exception*/} li.add(c.charAt(0)); RESULT = li; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("L",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -293,7 +323,7 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 if(c.length()>1){Practica1.log("No se acepta el uso de mas de un caracter. Se encontro:"+c);} LinkedList<Character> res = new LinkedList(); res.add(c.charAt(0)); RESULT = res; 
+		 if(c.length()>1){/*throw exception*/} LinkedList<Character> res = new LinkedList(); res.add(c.charAt(0)); RESULT = res; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("L",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -534,9 +564,8 @@ class CUP$parser$actions {
 
           /* . . . . . .*/
           default:
-            
-              Practica1.log("Invalid action number "+CUP$parser$act_num+"found in internal parse table");
-              throw new Exception("Invalid action number "+CUP$parser$act_num+"found in internal parse table");
+            throw new Exception(
+               "Invalid action number "+CUP$parser$act_num+"found in internal parse table");
 
         }
     } /* end of method */
