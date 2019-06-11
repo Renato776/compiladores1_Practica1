@@ -51,7 +51,7 @@ public class interfaz extends javax.swing.JFrame {
             try {
                 Thread.sleep(1000);
                 intentos++;
-                if (intentos > 15) {
+                if (intentos > 5) {
                     throw new Exception("Error al abrir archivo: " + f + "; El Archivo aun no existe, puede ser que aun se este creando.");
                 }
             } catch (Exception exceptionEx) {
