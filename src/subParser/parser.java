@@ -100,6 +100,36 @@ public class parser extends java_cup.runtime.lr_parser {
   public int error_sym() {return 1;}
 
 
+  
+     //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+       practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+       
+        }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico, Error Fatal !!!!!!! ");
+        practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+
+    }
+   
+
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$parser$actions {

@@ -7,6 +7,7 @@ package subParser;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java_cup.runtime.Symbol;
+import practica1.Practica1;
 
 /** Lexer of a very minimal version of the Java programming language. */
 
@@ -18,9 +19,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
             try {
                 sin.parse();
             } catch (Exception eret) {
+                Practica1.log(eret.getMessage());
                 System.out.println(eret);
             }
 }
+
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
 
@@ -46,12 +49,12 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final char [] ZZ_CMAP = {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  0,  0,  2,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 
+     0,  6,  0,  0,  0,  0,  0,  0,  0,  0,  7,  0,  0,  0,  0,  4, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  0,  8,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  0,  1,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  9,  0,  1,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -68,10 +71,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\1\1\3\1\1\1\0\2\4";
+    "\1\0\1\1\1\2\2\1\1\3\2\1\1\0\1\1"+
+    "\1\0\2\4\1\1\1\0";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[9];
+    int [] result = new int[15];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -96,11 +100,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\6\0\14\0\22\0\14\0\30\0\36\0\44"+
-    "\0\14";
+    "\0\0\0\12\0\24\0\36\0\50\0\24\0\62\0\74"+
+    "\0\106\0\120\0\132\0\144\0\24\0\156\0\170";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[9];
+    int [] result = new int[15];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -123,13 +127,17 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\2\2\1\4\1\5\1\2\1\0\3\2"+
-    "\7\0\1\2\1\0\2\2\1\6\1\0\1\6\1\7"+
-    "\2\2\1\6\3\7\1\10\1\11\2\7\3\0\1\11"+
-    "\2\0";
+    "\1\2\1\3\2\2\1\4\1\5\3\2\1\6\1\2"+
+    "\1\0\7\2\13\0\1\2\1\0\2\2\1\7\4\2"+
+    "\1\0\1\2\1\0\4\2\1\10\2\2\1\0\1\7"+
+    "\1\11\2\2\5\7\1\11\1\12\1\13\5\12\1\2"+
+    "\1\12\1\13\2\11\1\14\1\15\6\11\1\12\1\13"+
+    "\4\12\1\16\2\12\7\13\1\17\3\13\3\0\1\15"+
+    "\6\0\1\12\1\13\4\12\1\16\1\12\1\2\7\13"+
+    "\1\17\1\13\1\15\1\13";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[42];
+    int [] result = new int[130];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -167,11 +175,11 @@ scanner lexico = new scanner(new BufferedReader(new StringReader(es)));
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\1\1\11\1\1\1\11\1\1\1\0\1\1"+
-    "\1\11";
+    "\1\0\1\1\1\11\2\1\1\11\2\1\1\0\1\1"+
+    "\1\0\1\1\1\11\1\1\1\0";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[9];
+    int [] result = new int[15];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
