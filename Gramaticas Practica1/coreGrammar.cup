@@ -1,0 +1,86 @@
+package practica1; // Paquete
+import java_cup.runtime.*; 
+import java.util.*;
+
+parser code
+{:  
+     //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+       practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+       
+        }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico, Error Fatal !!!!!!! ");
+        practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+
+    }
+   :}
+
+
+/*Terminales*/
+
+terminal String INTEGER_LITERAL,COMILLA,IDENTIFIER,ESPECIAL,VINETA,COMA,CONDICIONAL,POSITIVA,PUNTOCOMA,SEPARACION,COMILLAESP,BARRA,KLEEN,LLAVEA,LLAVEB,PUNTO,ARROW,DOSPUNTOS,CONJ;
+
+/*
+Aquí están los no terminales
+*/
+
+non terminal 			      INICIO;
+non terminal LinkedList<Character>    S1,L;
+non terminal Node       	      AR;
+non terminal String 		      ESP;
+
+start with INICIO; 
+
+INICIO ::= CONJ DOSPUNTOS IDENTIFIER:i ARROW S1:conjunto INICIO {: Practica1.conjuntos.add(new Conjunto(i,conjunto)); :}
+	| IDENTIFIER:i ARROW AR:arbol PUNTOCOMA INICIO {: Practica1.arboles.add(new Tree(i,arbol)); :}
+	| /*empty*/
+	;
+
+S1 ::= ESP:c1 VINETA ESP:c2 PUNTOCOMA {: int ini = (int)c1.charAt(0); int fin = (int)c2.charAt(0); if(c1.length()>1||c2.length()>1){/*throw exception*/} int c = ini; LinkedList<Character> resultado = new LinkedList(); while(c <= fin){ resultado.add((char)c); c++; } RESULT = resultado; :}
+	| L:list {: RESULT = list; :}
+	; 
+ 
+L ::=  ESP:c COMA L:li {: if(c.length()>1){/*throw exception*/} li.add(c.charAt(0)); RESULT = li; :} 
+	| ESP:c PUNTOCOMA {: if(c.length()>1){/*throw exception*/} LinkedList<Character> res = new LinkedList(); res.add(c.charAt(0)); RESULT = res; :} 
+	; 
+
+ESP ::=  IDENTIFIER:i {: RESULT = i; :} 
+	| INTEGER_LITERAL:i {: RESULT = i; :}
+ 	| DOSPUNTOS:i {: RESULT = i; :}
+ 	| PUNTO:i {: RESULT = i; :}
+ 	| LLAVEA:i {: RESULT = i; :}
+ 	| LLAVEB:i {: RESULT = i; :}
+ 	| KLEEN:i {: RESULT = i; :}
+ 	| BARRA:i {: RESULT = i; :}
+ 	| PUNTOCOMA:i {: RESULT = i; :}
+ 	| POSITIVA:i {: RESULT = i; :}
+ 	| CONDICIONAL:i {: RESULT = i; :}
+ 	| ESPECIAL:i {: RESULT = i; :}
+	; 
+//System.out.println("palabra entera: "+i+" caracter at 0: "+i.charAt(0));
+AR ::=  PUNTO AR:a1 AR:a2 {: RESULT = new Node("y",a1,a2); :} 
+	| BARRA AR:a1 AR:a2 {: RESULT = new Node("o",a1,a2); :} 
+	| KLEEN AR:a {: RESULT = new Node("kleen",a); :}
+	| POSITIVA AR:a {: RESULT = new Node("positiva",a); :}
+	| CONDICIONAL AR:a {: RESULT = new Node("condicional",a); :}
+	| LLAVEA IDENTIFIER:i LLAVEB {: RESULT = new Node("hoja",i,false); :} 
+	| COMILLA ESP:i COMILLA {: LinkedList<Character> rContent = new LinkedList();  rContent.add(i.charAt(0)); RESULT = new Node("hoja",rContent); :}
+	; 

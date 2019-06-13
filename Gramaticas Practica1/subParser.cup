@@ -1,0 +1,55 @@
+package subParser; // Paquete
+import java_cup.runtime.*; 
+import java.util.*;
+
+parser code
+{:  
+     //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+       practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+       
+        }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        practica1.Practica1.log("!!!!!!! Error Sintactico, Error Fatal !!!!!!! ");
+        practica1.Practica1.log("\t\tLexema: "+lexema);
+        practica1.Practica1.log("\t\tFila: "+fila);
+        practica1.Practica1.log("\t\tColumna: "+columna);
+
+    }
+   :}
+
+/*Terminales*/
+
+terminal String OPENBRACKET,CLOSINGBRACKET,ESPECIAL;
+
+/*
+Aquí están los no terminales
+*/
+
+non terminal String 		      INICIO, S1;
+
+start with INICIO; 
+
+INICIO ::= OPENBRACKET S1:rString CLOSINGBRACKET INICIO {: practica1.Practica1.bloques.add(rString); :}
+	| /*empty*/
+	;
+
+S1 ::= ESPECIAL:c1 S1:current {: RESULT = c1+" "+current; :}
+	| OPENBRACKET S1:rResult CLOSINGBRACKET S1:current {: RESULT = "{"+rResult+"}"+" "+current; :}
+	| /*empty*/ {: RESULT = ""; :}
+	; 

@@ -1,0 +1,20 @@
+package evaluacion; // Paquete
+import java_cup.runtime.*; 
+import java.util.*;
+
+/*Terminales*/
+
+terminal String DOSPUNTOS,STRINGLITERAL,IDENTIFIER,PUNTOCOMA;
+
+/*
+Aquí están los no terminales
+*/
+
+non terminal 	 		      INICIO;
+
+
+start with INICIO; 
+
+INICIO ::= IDENTIFIER:i DOSPUNTOS STRINGLITERAL:s PUNTOCOMA INICIO {: practica1.Practica1.evaluaciones.add(new Evaluacion(i,s)); :}
+	| /*empty*/
+	;
